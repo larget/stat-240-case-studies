@@ -1,0 +1,68 @@
+--- 
+title: "Statistics 240 Course Notes"
+subtitle: "and Case Studies"
+author: "Bret Larget"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook
+#  bookdown::tufte_html_book:
+#    toc: yes
+#    split_by: chapter
+description: "This book contains case studies and course notes for STAT 240, Introduction to Data Modeling, at the University of Wisconsin, including instruction for many tidyverse packages"
+---
+
+```{r}
+library(bookdown)
+```
+
+# Introduction
+
+Statistics 240 is a first course in data science and statistical modeling at the University of Wisconsin - Madison.
+The course aims to enable you, the student in the course,
+to gain insight into real-world problems
+from messy data using methods of data science.
+These notes chart an initial path for you to gain the knowledge and skills
+needed to become a data scientist.
+
+The structure of the course is to present a series of case studies
+that will allow you to discover answers to interesting questions
+through a process of data analysis from data sets related to some engaging real-world issues from a variety of domains,
+such as climate change, travel, health, animal behavior, the election, police and race, and more.
+Each case study will take you through a common approach when encountered with new data: import, clean and tidy, transform, visualize, model, gain insight and understanding, and then communicate.
+In early case studies,
+many of the steps are provided so that you can focus on deep and detailed learning on a single stage of the data analysis process.
+In subsequent case studies,
+you will get to practice previously learned skills on new data
+while learning details about a different stage of the process.
+By the end of the semester,
+you will have gained a level of mastery which will allow you to carry out all steps of a basic analysis with novel data.
+You will have worked to gain a new power to learn about the world on your own.
+
+## Reproducibility, Scalability, and Writing Code
+
+Reproducible data analysis requires writing code which may be shared with others, including your future self.
+These notes will help to teach you to use the R Studio integrated development environment (IDE) as your interface to writing code for the practice of data science.
+The R language and the R Studio IDE are not the only ways to approach data science, but they are common and the skills developed in this course are widely used in more advanced statistics courses and are valued in the workplace.
+If you have little previous experience in writing code or using a computer for purposes beyond web browsing, email, and playing games,
+you might wonder after a few days why we cannot just use an easier point-and-click software package.
+There are many reasons, but an important two are reproducibility and scalability.
+When you write good code,
+you can redo your analysis or share the code and data with someone else for them to replicate your analysis.
+If you come back to a project you worked on six months before,
+you can immediately run the code again to replicate the analysis without needing to remember which sequence of mouse clicks you did before.
+You might be able to reuse your code for new data, such as when a data set is updated with data from another year, or when you get data of a similar structure from another source.
+The kinds of hand-editing that might be feasible for a few dozen or hundred data values won't be so feasible when confronted with data with hundreds of thousands of records.
+And you might want to do an analysis you did on one data set on hundreds of similar ones.
+The effort you put into learning to write code to do each step of an analysis pipeline will pay off in the future, but even in the short term in this class.
+
+## Next Steps
+
+We want you to get to the stage where you can begin doing data analysis and writing code on your own computer as soon as possible.
+But do do so, we need some preliminary steps to set your computer up for these tasks.
+That is the aim of the next chapter.
+
+
+
+
+
