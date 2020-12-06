@@ -1,0 +1,123 @@
+# Madison Police Incident Reports
+
+```{r setup-7, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,cache=TRUE,message=FALSE)
+library(tidyverse)
+library(lubridate)
+```
+
+## Public Data
+
+The city of Madison police department maintains a public database with summary information from incidents that are deemed to be of potential interest to the public.
+The data represents a selection of police incidents from early in 2005 through the present (late September, 2020, as of this writing).
+The data is available for free public download from the website
+https://data-cityofmadison.opendata.arcgis.com/datasets/police-incident-reports .
+The data set is not complete.
+
+> Incidents listed are selected by the Officer In Charge of each shift that may have significant public interest. Incidents listed are not inclusive of all incidents.
+
+This characteristic of the data means it likely is not representative of all police incidents during this time period.
+
+## Variables
+
+There are 11 variables in the data set, shown in the following table.
+
+```{r data, include = FALSE}
+police = read_csv("../stat240/data/Police_Incident_Reports_2020-09-28.csv",
+                  col_types = cols(
+                    IncidentID = col_integer(),
+                    IncidentType = col_character(),
+                    CaseNumber = col_character(),
+                    IncidentDate = col_character(),
+                    Suspect = col_character(),
+                    Arrested = col_character(),
+                    Address = col_character(),
+                    Victim = col_character(),
+                    Details = col_character(),
+                    ReleasedBy = col_character(),
+                    DateModified = col_character())) %>% 
+  mutate(IncidentDate = ymd_hms(IncidentDate),
+         DateModified = ymd_hms(DateModified))
+
+police %>%
+  filter(IncidentDate > ymd("2000-01-01") & IncidentDate < today()) %>% 
+  summarize(min = min(IncidentDate),
+                     max = max(IncidentDate))
+
+foo = tibble(
+  name = names(police),
+  description = c("a unique identifier in the data set",
+                  "there are nearly 100 types",
+                  "case number, internal police identifier",
+                  "the date and time of the incident",
+                  "a description of the suspect or suspects",
+                  "a description of the individual or individuals arrested",
+                  "address of the incident",
+                  "description of the victim or victims; could be one or more people or a business",
+                  "verbal description of the incident",
+                  "name of the officer or official who released the report",
+                  "date report modified, if applicable"))
+```
+
+```{r, echo = FALSE}
+library(kableExtra)
+foo %>%
+  kable() %>% 
+  kable_styling(full_width = TRUE, position = "center")
+```
+
+## Data Challenges
+
+Each of the variables recorded as free text.
+The same information may be expressed very differently in different observations, depending on who was doing the recording.
+For example, missing data could be left blank and read in by R as NA.
+But text such as "n/a", "N/a", "None", "N/A" or others mean the same thing.
+Similarly, there are many alternative ways that the police might enter information about the sex, race, or age of victims, suspects, and people arrested.
+Examples include: "15-year old male", "adult male", "M/B 18 years old", "2 males, both 20 years old 1 female, 19 years old", "Two white females, 18-20 years of age", and many others.
+Some individuals are identified by name and sex might be inferred.
+
+This lack of a universal means to record the data is generally not an issue for an intelligent human reader trying to read data from a small number of incidents,
+but presents a significant challenge when trying to extract summary information from the entire data set.
+In addition to the same information being stored in many ways,
+a further challenge is that there are some obvious errors in dates,
+case numbers, and in other variables.
+Values from case numbers and other variables for the same observation or other observations near by in the data set can be useful to correct errors
+as the incidents are, more or less, in order of time.
+
+## Strings and Regular Expressions
+
+Extracting useful summary data from the police incident report requires the ability to work with strings and regular expressions.
+A *string* is a sequence of characters that could be a single character, or a longer piece of text including letters, digits, punctuation, and other symbols.
+A *regular expression* is a pattern of characters, some with special meaning, that is used to match parts or all of strings.
+
+As an example, suppose we wanted to identify all cases where the victim was an individual person and then extract the sex, race, and age of the individual when provided.
+We can write code that searches for certain patterns in the text of the string of a cell of the data and classifies the outcome based on the pattern identified.
+As the variety of patterns is extensive,
+code will need to be quite lengthy to handle the multitude of cases.
+We will use this data as a means to learn about string commands in the tidyverse package **stringr** and as an introduction to the powerful tool of regular expressions.
+
+## Questions
+
+Here are some motivating questions.
+
+1. Do the variables with dates have accurate information? Can we identify and correct errors?
+
+2. How much data is missing in each variable?
+
+3. Over what time period do the incidents occur?
+
+4. How does the case number relate to the date of the incident? Are there any errors?
+
+5. What types of incidents are reported? Which are the most common?
+
+6. How often are words such as male, female, white, black, Hispanic, and so on used to describe the suspect?
+Can we identify how often the suspect is in each of these categories?
+
+7. How often is the suspect a single individual and when is the suspect more than one person?
+
+8. How often is the victim a business?
+
+9. Can we identify the relative frequency that the person arrested is male or female, or the race?
+
+10. Incidents have dates and times. Are certain types of incidents more or less likely to occur at certain times or certain days of the week?
+

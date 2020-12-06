@@ -1,0 +1,507 @@
+# Probability
+
+\newcommand{\given}{\,\mid\,}
+\newcommand{\E}{\mathsf{E}}
+\newcommand{\Var}{\mathsf{Var}}
+\renewcommand{\prob}{\mathsf{P}}
+
+```{r setup-9, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+source("scripts/viridis.R")
+source("scripts/ggprob.R")
+```
+
+## What is Probability?
+
+Probability is the branch of mathematics which deals with randomness.
+Informally, we think of the probability of some event as the chance that it happens.
+But there are deep philosophical differences on what this statement actually means.
+While there are formal mathematical descriptions of probability,
+this book will take a more informal approach aimed at the use of probability to describe uncertainty in statistical models.
+Even though we will be informal,
+we do aim to use language and notation that is consistent with more formal treatments
+so that those of you who take probability in the future will have some familiarity.
+
+## Notions of Probability
+
+A conventional definition of probability the long-run relative frequency with which some event occurs in repeated independent trials.
+For example, when rolling a fair 6-sided die repeatedly, we expect each value to appear on top equally often, or one sixth of the time, in the long run.
+Similarly, when tossing a fair coin repeatedly,
+we expect the long-run proportion of heads and tails to each converge to 0.5.
+Another common toy example is the chance of drawing a colored ball from an urn (convention says it must be an urn, not a bag, box, sack, or jar),
+is equal to the proportion of such colored balls in the urn
+and the assumption that all balls in the urn are equally likely to be drawn.
+This linking of probability to the relative frequency of a conceptually infinitely repeatable
+event is known as the *frequentist* interpretation of probability.
+
+This frequentist notion of probability is an example of an **objective** interpretation of probability, where, in principle, the true probability of an event can be determined by an objective repeated experiment.
+But this very notion assumes that the event in question is repeatable.
+In most applications with any degree of complexity,
+and especially those that arise in data science settings,
+we are interested in expressing uncertainty in events that will only happen once,
+or in some truth of nature on which we currently have partial information.
+In such settings,
+it can be useful to interpret probability as a *degree of belief*,
+a **subjective** interpretation in which different observers,
+even given the same data and the same likelihood model,
+may ascribe different probabilities to the same event.
+A purely subjective interpretation of probability says that objective probability does not even exist, and probabilities can only be understood in light of some statement of prior probabilities of belief.
+
+We see many examples of events which occur only once.
+In sports, many people place bets on events such as, will the Green Bay Packers
+win the next Super Bowl,
+or will the total points scored by both teams in a specific sports game be higher or lower than some amount, or will this team win its next game by at least 3 points?
+Next generation data analysis has crept into the broadcasts of football games where announcers will pass on information such as the probability of that spectacular catch you just observed being a completion was only 18%.
+Weather forecasts routinely attach probabilities to events such as there being a 60% chance of rain in a given location over the next 24 hours.
+Climatologists make probabilistic predictions about what the mean surface temperature of the oceans will be in a future year.
+An astronomer might wish to make a statement about the probability that a particular star has a planet of similar mass and radius to the Earth in its orbit.
+As I write this now in October 2020, data scientists at fivethirtyeight.com who model election results say that President Donald Trump has a 14% chance of winning reelection.
+Regardless of which side of the political spectrum you sit, thankfully this is an event that will only occur once.
+
+While each of the previous examples are not repeatable,
+the notion of probability is still very useful.
+And whether we are talking about rolling dice, tossing coins, or predicting outcomes of sporting events or elections, each of the probabilities depends on some statistical model
+and its underlying assumptions.
+This is true whether or not we adapt an objective or subjective interpretation of probability.
+The statement that a coin has a 0.5 probability of turning up heads when next flipped
+is based on an assumption of equal probability of symmetric results.
+The statement that a specific pass attempt has an 18% chance of being completed is depends on model-based analysis of data from many NFL games where the down, distance, length of the throw, amount of pressure the quarterback is experiencing, and the gap from nearby defenders all play a role.
+Probability forecasts about the weather are based on weather models, initial conditions, and simulations of future weather events.
+Predictions about election results are also based on models and simulation.
+Simulation is a tool through which scientists can construct a universe where one-time events are repeatable.
+Given the selection of a model and initial conditions,
+probabilities can be objectively determined.
+But there is subjectivity in the model selection and building process
+and people may differ on the chances of various initial conditions.
+
+This section on the philosophy behind probability is not meant to settle the question as to which interpretation of probability is correct.
+The take home messages are that probability is a useful means to quantify uncertainty
+and that probabilities arise from statistical models where assumptions matter.
+Probability is useful because results which we may develop for toy problems such as counting the number of heads in a set number of repeated coin tosses
+may also be used, for example,
+to model the number of times a chimpanzee makes a prosocial choice in an experimental setting,
+if we make equivalent assumptions.
+And, regardless of which model we believe or school of probability we ascribe to,
+the probability that the Green Bay Packers win the 2021 Super Bowl is much higher than that it is for the Chicago Bears (well, maybe a bit of subjectivity crept in there).
+
+## Probability Definitions and Examples
+
+The following introduction to probability will include definitions of concepts and examples based on case studies we have examined so far this semester.
+Item being defined will appear in *italics* in the paragraph that defines them.
+These definitions and notation are consistent with formal introductions of probability,
+but will, in many cases, lack the precise mathematical rigor found elsewhere.
+
+## Outcome Space
+
+> An *outcome space* is the collection of all elementary outcomes from a random process.
+> The notation $\Omega$ (the capital Greek letter omega) is often used to designate the outcome space. Elements of the outcome space are often designated with the lower case letter $\omega$.
+> These elements must be distinct.
+
+**Example:**
+In a very small prosocial choice experiment, a chimpanzee either makes the prosocial (P) or selfish (S) choice for each of three consecutive trials.
+The outcome space consists of all possible sequences of choices.
+
+$$
+\Omega = \left \{ PPP, PPS, PSP, PSS, SPP, SPS, SSP, SSS \right \}
+$$
+
+This outcome space has eight elementary elements.
+Each outcome in the outcome space represents one possible thing that might have happened.
+The outcome space is complete, in the sense that it is not missing any possibilities.
+Each outcome in the space is disjoint, meaning one and only one outcome can be the result in a specific experiment.
+
+## Probability
+
+A *random process* involves picking one outcome $\omega$ from the set $\Omega$.
+
+> The *probability* of the outcome $\omega$ may be defined as the long-run relative frequency at which the outcome $\omega$ would occur when we imagine repeating the process repeatedly.
+These probabilities will depend on assumptions made about the random process.
+The probabilities are not fully arbitrary; they need to satisfy axioms stated further below.
+
+## Law of Large Numbers
+
+If $x(\omega)_n$ is the number of times that outcome $\omega$ occurs among $n$ independent repetitions of the random process, then $\hat{p}_n = x_n/n$ is the sample proportion.
+In the limit over multiple independent repetitions of the random process,
+the sample proportion converges to its probability $p = \prob(\omega)$.
+Informally,
+
+$$
+\lim_{n \rightarrow \infty} \hat{p}_n = p
+$$
+
+More formally, there are strong and weak laws of large numbers which specify with more mathematical rigor exactly what we mean by this limit.
+
+The previous definition depends on being able to conceive of an infinite number of independent replications of the random process.
+
+**Example**: Under the assumptions that the probability that the chimpanzee makes the prosocial choice is equal to 0.5 for each choice and that the choices are all independent
+(in other words, the chimpanzee is just picking tokens at random without regard to whether or not the partner gets a treat too), then each possible outcome is equally likely and the probability of making three prosocial choices in a row will be $1/8 = 0.125$.
+If we did the experiment every day for many days in a row,
+there is a high probability that the proportion of repetitions of the experiment where the chimpanzee makes the prosocial choice all three times will be close to 0.125.
+(A deeper analyis is required to more precice in what we mean by "high probability" and "close".)
+
+## Events
+
+> An *event* is a subset of the outcome space $\Omega$.
+
+- Each elementary outcome $\omega$ is an event.
+- Any collection of elementary outcomes is an event.
+- Two special events are the empty set $\varnothing$ and the entire outcome space $\Omega$.
+- The probability of an event $A$ is the combined total of the probabilities of its elementary outcomes.
+    - When the outcome space is discrete, such as in the prosocial choice example, the combined total is simply the sum of the discrete probabilities.
+    - When the outcome space is continuous, as it might be when modeling the mass of an exoplanet or the maximum temperature in Madison on a specific day, we might use integration  from calculus (finding an area under a curve) to measure the combined probability.
+    - Some case, such as the amount of measureable rainfall in Madison on a particular day, combine both discrete (the total might be exactly zero) or continuous (some positive amount of rain) and measuring probability could be a combination of a sum and an area under a curve.
+
+We often describe events with words.
+In our small prosocial choice experiment example,
+the event *the prosocial choice is made exactly twice* corresponds to the set
+$A = \left\{ PPS, PSP, SPP \right\}$.
+The event *the first choice is selfish* is the set
+$B = \left\{ SPP, SPS, SSP, SSS \right\}.
+
+## Disjoint Events
+
+> Events $A$ and $B$ are *disjoint* if they have no common elementary outcomes.
+
+**Example**: The events *there are an odd number of prosocial choices* and *there are exactly two prosocial choices * are disjoint.
+The event *there are exactly four prosocial choices* is disjoint with every other event as it corresponds to the empty set $\varnothing$ and its intersection with any other event is also the empty set.
+
+## Probability Axioms
+
+With the understanding that:
+
+- $\Omega$ contains all possible elementary outcomes;
+- exactly one of these outcomes is selected at random;
+- in infinite repetition, each outcome is selected in proportion to its probability;
+- probabilities of events are the sums of the probabilities of the elementary outcomes contained in the event;
+
+The following axioms about probability hold.
+
+1. If $A$ and $B$ are disjoint events, then $\prob(A \text{ or } B) = \prob(A) + \prob(B)$.
+2. $0 \le \prob(A) \le 1$ for all events $A$.
+3. $\prob(\Omega) = 1$
+
+For a finite outcome space as in the prosocial choice example,
+the axioms are equivalent to the statements that the probability for each outcome in the outcome space is nonnegative,
+the probability of an event is the sum of the probabilities of the elementary outcomes contained in the set, and the sum of the probabilities of all elementary outcomes is one.
+
+## Random Variables
+
+> A *random variable* is a numerical value determined from a ranodm process. More formally, a *random variable* is a mapping from the outcome space $\Omega$
+> to the real line.
+
+The formal definition just means that a random variable describes how numbers are attached to each possible elementary outcome.
+
+By convention, we use capital letters (most often from the latter part of the alphabet)
+to represent random variables.
+
+A random variable distributes the probability attached to $\Omega$ to the number line.
+For a discrete outcome space $\Omega$, a random variable distributes discrete chunks of probability on the number line.
+For a continuous outcome space,
+we think of the probability as an infinitesimal dust distributed on the number line where we can measure the thickness of this probility dust at individual locations
+and measure the amount of probability in intervals.
+
+**Example**: Here are two random variables from our prosocial choice example.
+
+- $X = \text{the number of prosocial choices}$
+    - The random variable $X$ has the possible values 0, 1, 2, and 3.
+    - The mapping is:
+        - $SSS \rightarrow 0$;
+        - each of $SSP, SPS, PSS \rightarrow 1$;
+        - each of $SPP, PSP, PPS \rightarrow 2$;
+        - $PPP \rightarrow 3$
+    - Under the previous assumptions where each elementary outcome
+- $I_1 = \text{an indicator that the first choice is prosocial}$
+
+An *indicator random variable* is a special random variable that indicates an event
+and takes the value 1 if the event is occurs and 0 if it does not.
+Here, $I_1 = 1$ if the sequence begins with a P and $I_1 = 0$ if it begins with an S.
+
+## Addition Rule
+
+The addition rule for disjoint (mutually exclusive) events is one of the axioms:
+
+If $A$ and $B$ are disjoint events, then $\prob(A \text{ or } B) = \prob(A) + \prob(B)$.
+
+## General Addition Rule
+
+For non-disjoint events, the formula needs to correct of the elementary outcomes in both $A$ and $B$ whose probability was summed twice.
+In general,
+$$
+\prob(A \text{ or } B) = \prob(A) + \prob(B) - \prob(A \text{ and } B)
+$$
+
+## Probability Distribution of Discrete Random Variables
+
+The distribution of a discrete random variable $X$ satisfies the following rules.
+
+1. There is a countable (finite, or countably infinite) set of numbers $\{x\}$
+where $\prob(X=x) > 0$.
+2. There are no real numbers $x$ such that $\prob(X = x) < 0$.
+3. The probabilities sum to one.
+$$
+\sum_{x: \prob(x)>0} \prob(x) = 1
+$$
+
+It is useful to define many events using random variables. From our example above:
+
+- $X = 2$
+- $X > 0$
+- $X$ is even
+
+## Probability Distribution of Continuous Random Variables
+
+We typically describe the distribution of a continous-valued random variable
+with a probability density $f$ that satisfies these rules.
+
+1. As a function $f(x) \ge 0$ for all real numbers $x$.
+
+2. The total area under the curve $f$ and above the x-axis is equal to one.
+
+**Notes**:
+
+- There do exist continuous-valued random variables whose distribution cannot be explained by a density function, but these examples almost never appear in applications and are typically only studied in graduate level courses on porbability theory.
+
+- The density functions $f$ we will consider in applications are all nice, meaning they are continuous and smooth over intervals and have at most a countable number of discontinuities (in practice, usually not more than two).
+
+## Complement Rule
+
+> The complement of the event $A$, denoted $A^c$, is the set of all $\omega \in \Omega$ that are not in $A$: $A^c = \{\omega \in \Omega: \omega \not\in A\}$
+
+> The *complement rule* states $\prob(A^c) = 1 - \prob(A)$.
+
+This rule follows from the axioms because $A$ and $A^c$ are disjoint,
+the union of $A$ and $A^c$ is $\Omega$,
+and $\prob(A) + \prob(A^c) = \prob(\Omega) = 1$.
+
+**Example**: In the prosocial experiment with the random choice assumptions, the probability of all prosocial choices is $\prob(PPP) = 0.125$.
+There for the probability of 2 or fewer prosocial choice must be $1 = 0.125 = 0.875$ under the same assumptions.
+
+## Independence
+
+Conceptually, two events are independent if information about one event
+provides no information about the probability of the other event.
+We define this with a multiplication relationship.
+
+> Events $A$ and $B$ are independent if and only if $\prob(A \text{ and } B) = \prob(A) \times \prob(B)$.
+
+Random variables have similar definitions which follow from the independence of events based on one random variable being independent of events based on the other.
+
+> Discrete random variables $X$ and $Y$ are independent if and only if
+
+$$
+\prob(X = x \text{ and } Y = y) = \prob(X = x)\prob(Y = y) \qquad \text{for all $x$ and $y$}
+$$
+
+**Example**:
+
+In the small prosocial choice example with independence and equal probability assumptions,
+the events *first choice is prosocial* and *second choice is selfish* are independent.
+
+## Multiplication Rule
+
+The multiplication rule is one half of the independence definition.
+
+> If $A$ and $B$ are independent, then $\prob(A \text{ and } B) = \prob(A)\prob(B)$.
+
+## Conditional Probability
+
+> The *conditional probability* of event $A$ given that event $B$ has occured is denoted $\prob(A \given B)$ and satisfies the equation
+$$
+\prob(A \given B) = \frac{\prob(A \text{ and } B)}{\prob(B)}
+$$
+> when $\prob(B) > 0$.
+
+We will need a more advanced notion of conditional probability when we consider conditioning on events of probability zero with continuous outcome spaces.
+
+Note that if events $A$ and $B$ are independent and $\prob(B)>0$,
+then $\prob(A \given B) = \prob(A)$.
+This is another way to understand the concept of independence:
+knowledge about the occurrance of $B$ does not affect the probability of $A$.
+
+## General Multiplication Rule
+
+Without regard to independence, the multiplication rule is:
+$$
+\prob(A \text{ and } B) = \prob(A) \prob(B \given A)
+$$
+By switching the roles of $A$ and $B$, we also have
+$$
+\prob(A \text{ and } B) = \prob(B) \prob(A \given B)
+$$
+
+Both of these rules derive from the definition of conditional probability.
+You may also recall them by putting an order on the events.
+For $A$ and $B$ to both occur, you need either $A$ and then $B$ given $A$ or vice versa.
+
+## The Law of Total Probability
+
+The *law of total probability* describes summing the probability of an event by summing all paths to the event through the tree.
+
+> Let events $B_1,\ldots,B_k$ be a *partition* of $\Omega$
+> which means every elementary outcome $\omega$ is in exactly one of the $B_i$.
+> The events $\{B_i\}$ are disjoint and their union is $\Omega$.
+> Then,
+$$
+\prob(A) = \sum_i \prob(B_i) \prob(A \given B_i)
+$$
+
+## Weighted Means
+
+A *weighted mean* is the mean of a collection of numerical values,
+but different values can be given different weights.
+The weights are a collection of positive values (most often normalized to have a total weight of one).
+In a finite discrete example,
+the weighted mean of the values $x_1,\ldots,x_n$ weighted by $w_1,\ldots,w_n$ is
+
+$$
+\text{weighted mean}(x) = \frac{\sum_{i=1}^n x_i w_i}{\sum_{i=1}^n w_i}
+$$
+
+In the special case where the weights sum to one,
+this expression simplifies to $\sum_{i=1}^n x_i w_i$.
+
+The values $x_i$ being averaged are often functions of other values.
+For example, if we have positive weights $\{w_i\}$ such that $\sum_i w_i = 1$, then
+
+$$
+\text{weighted mean}(g(x)) = \frac{\sum_{i=1}^n g(x_i) w_i}{\sum_{i=1}^n w_i}
+$$
+
+Notice that the Law of Total Probability may be restated as
+
+> The probability of an event $A$, $\prob(A)$, is the weighted average
+> of the conditional probabilities $\prob(A \given B_i)$ for any partition
+> $B_1,\ldots$, weighted by the probabilities of the partition $\prob(B_i)$.
+
+We will see weighted averages often in statistics.
+Recognizing this pattern helps bot to memorize the formulas
+and to understand better the concepts.
+
+## Expectation
+
+The *expected value* of a random variable is the mean of its distribution.
+If a discrete random variable $X$ has possible values $x_1,\ldots,x_n$ with probabilities $\prob(X = x_i)$, the expected value is defined as
+$$
+\E (X) = \sum_{i=1}^n x_i \prob(X = x_i)
+$$
+Notice that the expected value is *the weighted mean of the possible values, weighted by their probabilities*.
+
+**Example:** The expected number of prosocial choices made by the chimpanzee under the assumptions of independence and equal probabilities may be calculated directly from the definition.
+Let $X$ be the number of prosocial choices.
+Counting outcomes, we have the probability mass function $p(0) = p(3) = 1/8 = 0.125$,
+$p(1) = p(2) = = 3/8 = 0.375$.
+
+$$
+\E (X) = 0 \times 0.125 + 1 \times 0.375 + 2 \times 0.375 + 3 \times 0.125 = 1.5
+$$
+
+The mean does not need to be a possible value, as in this example.
+
+## Continuous Random Variables
+
+If a random variable $X$ has density function $f$ where $\int_{-\infty}^\infty f(x) \, \mathrm{d}x = 1$,
+then its mean is
+$$
+\E(X) = \int_{-\infty}^\infty x f(x) \,\mathrm{d}x
+$$
+which depends on knowledge of calculus.
+
+When there is only a single random variable in a discussion,
+we often use the notation $\mu$ to represent the mean.
+
+The mean is the balancing point of the probability density.
+
+## Variance
+
+The *variance* of a random variable is the expected value of its squared deviation from its mean.
+
+$$
+\Var(X) = \E[ (X-\mu)^2 ] = \sum_{i=1}^n (x_i - \mu)^2 \prob(X = x_i)
+$$
+
+where $\mu = \E(X)$.
+Note that the variance is a measure of the *spread* of a distribution.
+When the variance is larger,
+the probability is spread further from the mean.
+
+The variance of a random variable is the weighted average of the squared deviations of its possible values from its mean, weighted by the probability mass function.
+Note also that the variance cannot be negative as it is an average of squared numbers (and so nonnegative) numbers.
+In fact, the variance can only be equal to zero if every possible value is equal to the mean,
+in which case the random variable is a constant as it has probability 1 of being its only possible value.
+
+## Sums of Random Variables
+
+We often create new random variables as sums of other random variables.
+The number of heads in 5 coin tosses is the sum of the five indicator random variables which indicate if each separate coin toss is a head.
+When we calculate the mean from a random sample,
+we take the sum of each individual random outcome.
+
+Here are two facts about means and variances of sums of random variables.
+
+**Fact 1**
+
+> The expected value of a sum of random variables is the sum of the expected values.
+
+Note that this statement is *always* true, even if the random variables are not independent.
+
+**Fact 2**
+
+> If random variables are independent, then the variance of the sum is the sum of the variances.
+
+The variance statement follows from independence and is generally not true.
+A general formula for the variance of a sum depends on a new concept called the covariance.
+
+$$
+\Var(X + Y) = \Var(X) + \Var(Y) + 2 \mathsf{Cov}(X,Y)
+$$
+We define the covariance next.
+
+## Covariance
+
+The *covariance* of random variables $X$ and $Y$ is defined as follows.
+$$
+\mathsf{Cov}(X,Y) = \E ( (X-\mu_X)(Y-\mu_Y) )
+$$
+Where $\E(X) = \mu_X$ and $\E(Y) = \mu_Y$.
+
+Unlike the variance,
+the covariance might be negative, positive, or zero.
+In fact, the covariance of a random variable with itself
+is just the variance: $\mathsf{Cov}(X,X) = \Var(X)$.
+
+The covariance is a measure of how two random variables vary together.
+When positive, the random variables tend to both be above their respective means or below their respective means together.
+The product $(x-\mu_X)(y-\mu_Y)$ is positive when both factors are postive or negative.
+In contrast, when one variable being larger than its mean tends to have the other be smaller than its mean leads to a negative covariance.
+
+## Correlation Coefficient
+
+The *correlation* between two random variables is a rescaling of their covariance by their standard deviations.
+$$
+\mathsf{Corr}(X,Y) = \frac{\mathsf{Cov}(X,Y)}{\mathsf{SD}(X)\mathsf{SD}(Y)}
+$$
+where each standard deviation $\mathsf{SD}$ is the square root of the corresponding variance.
+
+The correlation between two random variables is always between $-1$ and $1$ and is unitless.
+
+## Linear Combinations
+
+When we speak about linear operations,
+we mean addition or multiplication by scalars.
+The following facts follow from the definitions of expected value,
+variance, and covariance above for random variables $X$ and $Y$
+and scalars (real numbers) $a$, $b$, $c$, and $d$.
+
+$$
+\E (aX + b) = a \E(X) + b
+$$
+
+$$
+\Var(aX + b) = a^2 \Var(X)
+$$
+
+$$
+\mathsf{Cov}(aX+b,cY+d) = ac\mathsf{Cov}(X,Y)
+$$
+

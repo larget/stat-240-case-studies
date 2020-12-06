@@ -1,0 +1,206 @@
+# Madison Weather
+
+```{r setup-04, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,cache = TRUE,message=FALSE)
+library(tidyverse)
+library(lubridate)
+```
+
+## Weather and Climate Change
+
+The weather in Madison changes throughout the day as temperature rises and falls, precipitation comes and goes, winds gust and decrease, and clouds pass over head.
+Climate refers to prevailing average weather conditions over long periods of time.
+There is consensus among climatologists that climate change is happening with many parts of the globe experiencing warming on average and increased frequency of extreme precipitation events,
+based on extensive data collection across the globe,
+modelling, and analysis.
+
+The purpose of this project is to examine daily weather measurements
+in Madison dating back to 1869,
+to see if there is evidence of changes in the climate in the period of time from when these measurements were first recorded to the present.
+
+## Data
+
+The source of the data for this project is NOAA,
+the National Oceanic and Atmospheric Administration
+of the United States.
+You can find daily weather data for Madison in the file *madison-weather-2020.csv*
+which contains daily Madison weather observations for many temperature and precipitation variables measured at multiple weather stations in the area up to a recent date.
+
+## Weather Stations
+
+The data set includes data from weather stations indicated on the map.
+Locations are approximate (as latitude and longitude are rounded in the data file).
+
+```{r map-04, echo=FALSE, fig.height=3.5, warning=FALSE}
+mw = read_csv("data/madison-weather-2020.csv",
+                   col_types = cols(
+                     STATION = col_character(),
+                     NAME = col_character(),
+                     LATITUDE = col_double(),
+                     LONGITUDE = col_double(),
+                     ELEVATION = col_double(),
+                     DATE = col_date(format = ""),
+                     AWND = col_double(),
+                     PRCP = col_double(),
+                     SNOW = col_double(),
+                     SNWD = col_double(),
+                     TAVG = col_double(),
+                     TMAX = col_double(),
+                     TMIN = col_double(),
+                     WSF1 = col_double()))
+
+library("ggmap")
+
+dx = 0.2
+dy = 0.1
+mad_coords = c(left = -89.4 - dx,
+               bottom = 43.1 - dy,
+               right = -89.4 + dx,
+               top = 43.1 + dy)
+
+map = get_map(source = "stamen",
+              location = mad_coords,
+              maptype = "watercolor", zoom = 12)
+
+foo = mw %>%
+  group_by(STATION) %>% summarize(lat=first(LATITUDE),lon=first(LONGITUDE))
+
+ggmap(map) +
+  geom_point(data = foo, aes(x=lon,y=lat), color="black", shape=17) +
+  geom_text(data = foo, aes(x=lon,y=lat,label=STATION), nudge_y = 0.01, size = 3) +
+  theme_void()
+
+rm(foo)
+```
+
+## Variables
+
+The CSV file *madison-weather-2020.csv* has the following variables.
+
+| **Variable** | Description |
+| :----- | :---------- |
+| *STATION* | unique code for the weather station |
+| *NAME* | station name
+| *LATITUDE* | station latitude |
+| *LONGITUDE* | station longitude |
+| *ELEVATION* | station elevation (feet above sea level) |
+| *DATE* | date of observations |
+| *AWND* | average wind speed (mph) |
+| *PRCP* | precipitation (inches, water) |
+| *SNOW* | snow fall (inches) |
+| *SNWD* | snow depth (inches) |
+| *TAVG* | daily average air temperature (degrees Fahrenheit) |
+| *TMAX* | maximum air temperature (degrees Fahrenheit) |
+| *TMIN* | minimum air temperature (degrees Fahrenheit) |
+| *WSF1* | maximum one-minute wind speed |
+
+We will eliminate several of these which contain primarily missing data before analysis,
+rename variable names to be more convenient,
+and eliminate data from weather stations with considerable gaps in their record.
+The official Madison weather record uses data recorded by the Madison Weather Bureau from its earliest date of collection until the weather station at the airport began operation, which then became the official weather station.
+Most questions will use the subset of official weather data,
+but a few will ask you to these two weather stations over the period of years when both were operating.
+
+## Initial Data Transformations
+
+A great deal of data transformation is required to transform the data from its original form in order to answer many questions of interest.
+
+
+1. Using the original data, identify the number of missing observations in each variable.
+
+2. Using the original data, for each weather station, determine the earliest and latest dates for which minimum and maximum temperature observations exist and determine the number of days in this time period. Then count the number of dates within the time period for each weather station for which there are no observations.
+
+3. Use results from the first two questions to justify eliminating variables with substantial missing data and the two weather stations with the most gaps in the data from the data set.
+Furthermore, rename the remaining variables with lower-case letter names and change the values of the *STATION* variable to be more useful.
+
+4. After these transformations,
+save two versions of the data in comma-separated-variable files:
+First, a data set in a file *madison-weather-reduced.csv*
+with all of the remaining data; and second,
+a file named *madison-weather-official-2019.csv* with the official data through December 31, 2019.
+
+5. For each of these data sets, determine the number of missing dates for each weather station and the number of missing values for each remaining variable.
+
+## Questions
+
+A primary overriding question will be to see if Madison weather data is consistent with prediction made by climate change.
+
+1. Using the official weather data, find the average high and low temperature for each year from 1869 to 2018.
+Plot this data effectively.
+Add a trend line or curve to your plot.
+What does this plot show about changes in annual average temperature over time?
+
+2. Find the average high and low temperature for each month and year and plot this data effectively
+with different facets for each month.
+Add a trend line or curve.
+How do changes in average temperatures vary by month?
+
+3. Find the maximum and minimum temperature for each date of the calendar year.
+(For example, do this for January 1, January 2, ..., to December 31.)
+Plot this data effectively.
+On which dates and years are the all-time high and low temperatures in Madison?
+
+4. Find the average precipitation by month in Madison.
+Summarize and graph the data.
+
+5. Divide the time from 1870 through 2019 into five 30-year time periods.
+Calculate the average annual precipitation in each time period.
+Has this changed over time?
+
+6. Find the dates of the top one percent daily precipitation totals.
+How many of these fall into each of the five 30-year time periods.
+Are more extreme precipitation events becoming more frequent?
+
+7. How has snowfall changed over time? Calculate the annual total snowfall by winter over time and plot this.
+What are the trends?
+Note that many snowfall measurements of 0 might be recorded as NA, but other NA values may truly be missing.
+Decide on how to determine the difference before doing an analysis.
+
+8. For the time period where observations at the Madison Weather Bureau and at the airport overlap,
+how much variation is there is daily maximum and minimum temperatures?
+What about averages over months and years?
+Explore graphically and numerically.
+
+## Obtaining Data
+
+To obtain weather data for Madison or other locales in the United States,
+follow these steps:
+
+1. Go to the web page \url{https://www.ncdc.noaa.gov/cdo-web/} .
+
+2. Click on the link to **Data Tools** located under the search window.
+
+3. Click on **Find a Station**.
+
+4. Enter
+    + A city name or other location in *Enter Location*
+    + Select **Daily Summaries** from *Select Dataset*
+    + Click **Air Temperature** and **Precipitation** under *Data Categories*.
+
+5. Select several weather stations
+    + Use the map to zoom in or out.
+    + Click on weather stations to find details such as the period of time for which the data was collected.
+    + Select one or more by clicking on **Add to Cart**.
+
+6. When finished selecting weather stations, click on **Cart (Free Data)** above and to the right of the map.
+
+7. Click on **Custom GHCN-Daily CSV** to select the output format.
+
+8. Change data range, if desired.
+
+9. Click on **Continue**.
+
+10. Select **Station Name** and **Geographic Location**.
+
+11. Select desired output variables: Open each category and select. For example: 
+PRCP, SNOWD, SNOW, TAVG, TMIN, TMAX, AWND, WSF1
+
+12. Click on **Continue**. Add email address and confirm.
+
+13. Click on **Submit Order**.
+
+Somewhere you will need to create an account if you have not already used this data source.
+
+You receive an email confirmation of the request
+and then an email with a link to download the data.
+

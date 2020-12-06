@@ -5,10 +5,10 @@ author: "Bret Larget"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
-  bookdown::gitbook
-#  bookdown::tufte_html_book:
-#    toc: yes
-#    split_by: chapter
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: section
 description: "This book contains case studies and course notes for STAT 240, Introduction to Data Modeling, at the University of Wisconsin, including instruction for many tidyverse packages"
 ---
 

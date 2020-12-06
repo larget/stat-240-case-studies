@@ -1,0 +1,64 @@
+date,team1,team2,site,s1_1,s1_2,s1_3,s1_4,s1_5,sets_1,s2_1,s2_2,s2_3,s2_4,s2_5,sets_2,winner,loser,attendance
+2019-12-05,Florida St.,UCF,"@Gainesville, FL (DI WVB Championship)",19,25,25,18,8,2,25,20,20,25,15,3,UCF,Florida St.,560
+2019-12-05,Texas St.,UC Santa Barbara,"@Austin, TX (DI WVB Championship)",21,21,25,14,NA,1,25,25,20,25,NA,3,UC Santa Barbara,Texas St.,3532
+2019-12-05,Oklahoma,Rice,"@College Station, TX (DI WVB Championship)",18,22,19,NA,NA,0,25,25,25,NA,NA,3,Rice,Oklahoma,1353
+2019-12-05,Samford,Louisville,"@Bowling Green, KY (DI WVB Championship)",21,12,22,NA,NA,0,25,25,25,NA,NA,3,Louisville,Samford,0
+2019-12-05,Alabama St.,10 Florida,DI WVB Championship,10,16,20,NA,NA,0,25,25,25,NA,NA,3,10 Florida,Alabama St.,2022
+2019-12-05,St. John's (NY),13 Texas A&M,DI WVB Championship,25,21,12,NA,NA,0,27,25,25,NA,NA,3,13 Texas A&M,St. John's (NY),2085
+2019-12-05,Kennesaw St.,15 Western Ky.,DI WVB Championship,23,20,23,NA,NA,0,25,25,25,NA,NA,3,15 Western Ky.,Kennesaw St.,4514
+2019-12-05,Albany (NY),2 Texas,DI WVB Championship,9,16,15,NA,NA,0,25,25,25,NA,NA,3,2 Texas,Albany (NY),3532
+2019-12-06,VCU,Cincinnati,"@Pittsburgh, PA (DI WVB Championship)",25,22,19,23,NA,1,20,25,25,25,NA,3,Cincinnati,VCU,0
+2019-12-06,Dayton,Marquette,"@West Lafayette, IN (DI WVB Championship)",23,19,22,NA,NA,0,25,25,25,NA,NA,3,Marquette,Dayton,2415
+2019-12-06,Northern Ky.,Michigan,"@Lexington, KY (DI WVB Championship)",22,15,22,NA,NA,0,25,25,25,NA,NA,3,Michigan,Northern Ky.,2746
+2019-12-06,Notre Dame,UCLA,"@Madison, WI (DI WVB Championship)",16,19,20,NA,NA,0,25,25,25,NA,NA,3,UCLA,Notre Dame,0
+2019-12-06,American,Towson,"@State College, PA (DI WVB Championship)",23,25,22,25,12,2,25,15,25,22,15,3,Towson,American,2142
+2019-12-06,Iowa St.,Creighton,"@Minneapolis, MN (DI WVB Championship)",22,15,19,NA,NA,0,25,25,25,NA,NA,3,Creighton,Iowa St.,3956
+2019-12-06,UNI,Missouri,"@Lincoln, NE (DI WVB Championship)",11,13,14,NA,NA,0,25,25,25,NA,NA,3,Missouri,UNI,0
+2019-12-06,Illinois,Utah,"@Provo, UT (DI WVB Championship)",23,26,27,23,10,2,25,24,25,25,15,3,Utah,Illinois,2401
+2019-12-06,SFA,Southern California,"@Waco, TX (DI WVB Championship)",18,19,16,NA,NA,0,25,25,25,NA,NA,3,Southern California,SFA,0
+2019-12-06,Louisville,15 Western Ky.,DI WVB Championship,21,25,25,21,15,3,25,21,22,25,5,2,Louisville,15 Western Ky.,5023
+2019-12-06,UCF,10 Florida,DI WVB Championship,21,18,17,NA,NA,0,25,25,25,NA,NA,3,10 Florida,UCF,2412
+2019-12-06,Howard,6 Pittsburgh,DI WVB Championship,9,21,14,NA,NA,0,25,25,25,NA,NA,3,6 Pittsburgh,Howard,1631
+2019-12-06,Wright St.,16 Purdue,DI WVB Championship,9,22,11,NA,NA,0,25,25,25,NA,NA,3,16 Purdue,Wright St.,2415
+2019-12-06,Georgia,Cal Poly,"@Stanford, CA (DI WVB Championship)",25,25,20,22,10,2,23,22,25,25,15,3,Cal Poly,Georgia,1968
+2019-12-06,Rice,13 Texas A&M,DI WVB Championship,28,30,20,15,NA,1,26,32,25,25,NA,3,13 Texas A&M,Rice,2176
+2019-12-06,Southeast Mo. St.,9 Kentucky,DI WVB Championship,20,15,19,NA,NA,0,25,25,25,NA,NA,3,9 Kentucky,Southeast Mo. St.,2746
+2019-12-06,Princeton,11 Penn St.,DI WVB Championship,21,20,19,NA,NA,0,25,25,25,NA,NA,3,11 Penn St.,Princeton,2142
+2019-12-06,Sacred Heart,1 Baylor,DI WVB Championship,20,18,8,NA,NA,0,25,25,25,NA,NA,3,1 Baylor,Sacred Heart,1918
+2019-12-06,South Carolina,Colorado St.,"@Seattle, WA (DI WVB Championship)",27,17,25,14,18,3,25,25,22,25,16,2,South Carolina,Colorado St.,2052
+2019-12-06,Ball St.,5 Nebraska,DI WVB Championship,13,18,10,NA,NA,0,25,25,25,NA,NA,3,5 Nebraska,Ball St.,8204
+2019-12-06,Fairfield,7 Minnesota,DI WVB Championship,13,14,11,NA,NA,0,25,25,25,NA,NA,3,7 Minnesota,Fairfield,3956
+2019-12-06,UC Santa Barbara,2 Texas,DI WVB Championship,22,25,25,18,10,2,25,19,18,25,15,3,2 Texas,UC Santa Barbara,3767
+2019-12-06,Illinois St.,4 Wisconsin,DI WVB Championship,13,14,24,NA,NA,0,25,25,26,NA,NA,3,4 Wisconsin,Illinois St.,7052
+2019-12-06,New Mexico St.,14 BYU,DI WVB Championship,7,23,19,NA,NA,0,25,25,25,NA,NA,3,14 BYU,New Mexico St.,2401
+2019-12-06,Washington St.,San Diego,"@Honolulu, HI (DI WVB Championship)",21,25,19,14,NA,1,25,22,25,25,NA,3,San Diego,Washington St.,0
+2019-12-06,Denver,3 Stanford,DI WVB Championship,20,11,15,NA,NA,0,25,25,25,NA,NA,3,3 Stanford,Denver,2148
+2019-12-06,Winthrop,8 Washington,DI WVB Championship,23,10,10,NA,NA,0,25,25,25,NA,NA,3,8 Washington,Winthrop,2052
+2019-12-07,Northern Colo.,12 Hawaii,DI WVB Championship,24,26,8,15,NA,1,26,24,25,25,NA,3,12 Hawaii,Northern Colo.,7818
+2019-12-07,Michigan,9 Kentucky,DI WVB Championship,19,19,20,NA,NA,0,25,25,25,NA,NA,3,9 Kentucky,Michigan,2748
+2019-12-07,Towson,11 Penn St.,DI WVB Championship,25,16,17,20,NA,1,22,25,25,25,NA,3,11 Penn St.,Towson,1908
+2019-12-07,Cincinnati,6 Pittsburgh,DI WVB Championship,24,25,16,25,15,3,26,21,25,21,13,2,Cincinnati,6 Pittsburgh,1901
+2019-12-07,Marquette,16 Purdue,DI WVB Championship,25,16,17,13,NA,1,22,25,25,25,NA,3,16 Purdue,Marquette,2275
+2019-12-07,Creighton,7 Minnesota,DI WVB Championship,13,25,25,24,10,2,25,19,15,26,15,3,7 Minnesota,Creighton,4003
+2019-12-07,Missouri,5 Nebraska,DI WVB Championship,25,20,30,18,NA,1,20,25,32,25,NA,3,5 Nebraska,Missouri,8091
+2019-12-07,Utah,14 BYU,DI WVB Championship,25,25,25,NA,NA,3,15,15,15,NA,NA,0,Utah,14 BYU,3250
+2019-12-07,Southern California,1 Baylor,DI WVB Championship,23,17,22,NA,NA,0,25,25,25,NA,NA,3,1 Baylor,Southern California,1670
+2019-12-07,UCLA,4 Wisconsin,DI WVB Championship,18,21,14,NA,NA,0,25,25,25,NA,NA,3,4 Wisconsin,UCLA,7052
+2019-12-07,South Carolina,8 Washington,DI WVB Championship,23,24,8,NA,NA,0,25,26,25,NA,NA,3,8 Washington,South Carolina,2044
+2019-12-07,Cal Poly,3 Stanford,DI WVB Championship,13,16,17,NA,NA,0,25,25,25,NA,NA,3,3 Stanford,Cal Poly,2326
+2019-12-08,San Diego,12 Hawaii,DI WVB Championship,23,21,21,NA,NA,0,25,25,25,NA,NA,3,12 Hawaii,San Diego,8058
+2019-12-13,16 Purdue,1 Baylor,DI WVB Championship,12,25,15,17,NA,1,25,23,25,25,NA,3,1 Baylor,16 Purdue,1848
+2019-12-13,9 Kentucky,8 Washington,"@Waco, TX (DI WVB Championship)",16,24,25,22,NA,1,25,26,15,25,NA,3,8 Washington,9 Kentucky,1848
+2019-12-13,Louisville,2 Texas,DI WVB Championship,25,25,17,18,15,3,22,22,25,25,12,2,Louisville,2 Texas,4137
+2019-12-13,12 Hawaii,5 Nebraska,"@Madison, WI (DI WVB Championship)",27,22,19,NA,NA,0,29,25,25,NA,NA,3,5 Nebraska,12 Hawaii,7052
+2019-12-13,13 Texas A&M,4 Wisconsin,DI WVB Championship,20,17,23,NA,NA,0,25,25,25,NA,NA,3,4 Wisconsin,13 Texas A&M,7052
+2019-12-13,10 Florida,7 Minnesota,"@Austin, TX (DI WVB Championship)",25,14,25,15,11,2,23,25,16,25,15,3,7 Minnesota,10 Florida,4137
+2019-12-13,Cincinnati,11 Penn St.,"@Stanford, CA (DI WVB Championship)",25,17,25,12,11,2,20,25,23,25,15,3,11 Penn St.,Cincinnati,2382
+2019-12-13,Utah,3 Stanford,DI WVB Championship,25,14,10,25,11,2,22,25,25,12,15,3,3 Stanford,Utah,2609
+2019-12-14,8 Washington,1 Baylor,DI WVB Championship,20,25,19,18,NA,1,25,21,25,25,NA,3,1 Baylor,8 Washington,3008
+2019-12-14,Louisville,7 Minnesota,"@Austin, TX (DI WVB Championship)",21,14,16,NA,NA,0,25,25,25,NA,NA,3,7 Minnesota,Louisville,3915
+2019-12-14,5 Nebraska,4 Wisconsin,DI WVB Championship,18,22,19,NA,NA,0,25,25,25,NA,NA,3,4 Wisconsin,5 Nebraska,7052
+2019-12-14,11 Penn St.,3 Stanford,DI WVB Championship,22,15,17,NA,NA,0,25,25,25,NA,NA,3,3 Stanford,11 Penn St.,2946
+2019-12-19,4 Wisconsin,1 Baylor,"@Pittsburgh, PA (DI WVB Championship)",25,25,25,25,NA,3,27,21,17,19,NA,1,4 Wisconsin,1 Baylor,0
+2019-12-19,7 Minnesota,3 Stanford,"@Pittsburgh, PA (DI WVB Championship)",19,22,22,NA,NA,0,25,25,25,NA,NA,3,3 Stanford,7 Minnesota,14661
+2019-12-21,4 Wisconsin,3 Stanford,"@Pittsburgh, PA (DI WVB Championship)",16,17,20,NA,NA,0,25,25,25,NA,NA,3,3 Stanford,4 Wisconsin,16290
