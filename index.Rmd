@@ -59,7 +59,7 @@ The effort you put into learning to write code to do each step of an analysis pi
 ## Next Steps
 
 We want you to get to the stage where you can begin doing data analysis and writing code on your own computer as soon as possible.
-But do do so, we need some preliminary steps to set your computer up for these tasks.
+But to do so, we need some preliminary steps to set your computer up for these tasks.
 That is the aim of the next chapter.
 
 

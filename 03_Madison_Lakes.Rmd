@@ -1,7 +1,7 @@
 # Madison Lakes
 
 ```{r setup-03, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,cache = TRUE,message=FALSE)
+knitr::opts_chunk$set(echo = TRUE,cache = TRUE, message = FALSE)
 library(tidyverse)
 ```
 
@@ -27,18 +27,23 @@ in recent decades with assistance from the UW-Madison Department of Atmospheric 
 ### Criteria for freezing/thawing
 
 Officially,
-Lake Mendota is considered to be *open* if less than half the surface is covered by ice and *closed* if more than have of the surface is ice covered.
-The determination of dates when the lakes freezes (closes) and thaws (opens) attempts to follow protocols that originated during the middle of the 1800s.
-The lake is determined to be closed if it appears that at least 50% of the lake is covered by ice from several vantage points.
+Lake Mendota is considered to be *closed* if more than half the surface is covered by ice and *open* otherwise.
+The determination of dates when the lakes first closes and subsequently opens attempts to follow protocols that originated during the middle of the 1800s,
+where the determination was based on observations from several vantage points.
 For a change in status (open to closed / closed to open) to be deemed official,
 it needs to persist until the next day.
-There is admittedly some subjectivity in the determinations of the dates.
+There is admittedly some subjectivity in the determinations of the dates,
+but this subjectivity rarely affects the determination of the date by more than one day.
 On Lake Mendota,
 there is an additional criterion (see http://www.aos.wisc.edu/~sco/lakes/msn-lakes_instruc.html).
 
 > Determining the opening and closing dates for Lake Mendota is more of a challenge because the length and shape of the lake would require a sufficiently high vantage point that was not readily available to 19th century observers.  Partly because Lake Mendota has a more irregular shoreline, an important secondary criterion applies for that lake: whether one can row a boat between Picnic Point and Maple Bluff.  This rule arose from the era of E. A. Birge and Chancey Juday (according to Reid Bryson, founder of the UW Meteorology Dept., now known as the Dept. of Atmospheric and Oceanic Sciences), because they frequently were out on the lake in a rowboat, and the ice along that line determined if they could transport a case of beer over to their friends in Maple Bluff.
 
 ### Map
+
+The University of Wisconsin---Madison campus sits on the south shore of Lake Mendota.
+The red dashed line in the map below connects Picnic Point and Maple Bluff.
+Most photographs below are taken from Picnic Point in the direction of this line.
 
 ```{r map-03, echo=FALSE, fig.height=2, warning=FALSE}
 library("ggmap")
@@ -52,54 +57,450 @@ mad_coords = c(left = cx - dx,
                bottom = cy - dy,
                top = cy + dy)
 map = get_stamenmap(mad_coords, maptype = "watercolor", zoom = 12)
+
+points = tibble(location = c("Picnic Point","Maple Bluff"),
+                x = c(-89.415,-89.38),
+                y = c(43.09,43.115))
+
+points2 = tibble(x = points$x[1],
+                 xend = points$x[2],
+                 y = points$y[1],
+                 yend = points$y[2])
+
 ggmap(map) +
-  annotate("text",label="Lake Mendota",x=cx+0.01,y=cy-0.005) +
+  annotate("text", label="Lake Mendota", x=cx+0.005, y=cy-0.005) +
+  annotate("text", label="Picnic Point", x=-89.397, y=43.09, size = 2.8) +
+  annotate("text", label="Maple Bluff", x=-89.4, y=43.115, size = 2.8) +  
+  annotate("text", label="UW Campus", x=-89.41, y=43.077, size = 2.8) +
+  geom_point(aes(x=x, y=y), color = "red", data=points) +
+  geom_segment(aes(x=x, y=y, xend=xend, yend=yend),
+               color = "red",
+               linetype = "dashed",
+               data = points2) +
   theme_void()
 ```
+
+### Winter of 2020-2021
+
+During the 2020-2021 winter, Lake Mendota was officially declared as closed by ice on January 3, 2021.
+The following images show the view from Picnic Point toward Maple Bluff before and after this date.
+Fortuitously, there was snowfall on January 4 which gathered on the ice surface but melted in the open water, making it easy to observe the boundaries between ice and open water.
+
+**Early and Mid December**
+
+There was no ice on the surface of Lake Mendota near Picnic Point.
+
+![Maple Bluff from Picnic Point on December 2, 2020](./images/2020-12-02_maple-bluff-h.png "Maple Bluff 2020-12-02")
+
+![Maple Bluff from Picnic Point on December 17, 2020](./images/2020-12-17_maple-bluff-h.png "Maple Bluff 2020-12-17")
+
+**Early January**
+
+On January 2, the last day that Lake Mendota was observed as open, thin sheets of ice are beginning to form on the line from Picnic Point toward Maple Bluff.
+There was still much open water between Picnic Point and the capitol and UW campus,
+but ice was spreading away from the southern shore of the lake several hundred feet.
+
+![Maple Bluff from Picnic Point on January 2, 2021](./images/2021-01-02_maple-bluff-h.png "Maple Bluff 2021-01-02")
+
+On January 5, almost the entire lake was covered with ice.
+A small region with an area less than 1% of the total lake surface near the region of Picnic Point was still open, as can be seen here.
+
+![Maple Bluff from Picnic Point on January 5, 2021](./images/2021-01-05_maple-bluff-h.png "Maple Bluff 2021-01-05")
+
+A photo from higher up near the end of Picnic Point shows that most of the entire northern body of the lake is ice covered.
+Although not pictured, this part of the Lake was nearly all open water on January 2.
+
+![North from above Picnic Point on January 5, 2021](./images/2021-01-05_north-from-picnic-point.png "North from Picnic Point 2021-01-05")
+
+A second photo shows the northern part of Lake Mendota from a vantage point about a quarter mile west of Picnic Point on January 5. On January 2, the ice only extended about 100-200 feet from the shore, but by January 5, the entire visible surface of the lake from this vantage point is covered with ice for miles to the far shore.
+
+![North from the Path to Picnic Points on January 5, 2021](./images/2021-01-05_lake-mendota-north.png "Toward North Shore of Lake Mendota 2021-01-05")
 
 ### Lake Mendota Data
 
 The Lake Mendota data is shared on a Department of Atmospheric and Oceanic Sciences website http://www.aos.wisc.edu/~sco/lakes/Mendota-ice.html.
 This data is not directly machine readable into a nice format.
-The file `lake-mendota-raw.csv` contains the data
-from this webpage
+The file *lake-mendota-raw-2020.csv* contains the data
+from this web page through the 2019--2020 winter,
 formatted by hand to be machine readable
 with slight differences in how the information is stored.
-Each row represents a period of time where the lake is frozen,
-with some winters appearing multiple times.
-(When this happens, the winter value is repeated, unlike the web page, where a double quote indicates it is repeated from the previous row.)
-Missing data is recorded as NA (instead of ---).
-The variable `winter` is a two-year range
-while the dates in the closed and open columns contain a month abbreviation and day without the year.
-Months from October through December correspond to the first year of the range while those from January through May are the second.
-We will not work with the raw data until later in the semester
-when we work on cleaning data.
 
-The file `lake-mendota-clean-2020.csv` has been cleaned and transformed where each row represents a single winter instead of a period of freezing.
+The files *lake-mendota-interval-2020.csv* and
+*lake-mendota-winters-2020.csv* have been cleaned and transformed
+so that each row represents
+an interval date range when the lake was closed by ice in the first case
+or a summary of the data over an entire winter for the second file.
 Several variables are calculated for each winter as specified in the following table.
 
-#### Variables
+#### Lake Mendota Variables
 
-The CSV file *lake-mendota-clean-2020.csv* has the following variables.
+The file *lake-mendota-intervals-2020.csv* has the following variables.
 
 | **Variable** | Description |
 | :----- | :---------- |
 | *winter* | two-year range of the stary and end of the winter |
 | *year1* | the first year of the winter |
+| *year2* | the second year of the winter |
+| *closed* | the date of the time interval when the lake became closed with ice |
+| *open* | the subsequent date of the time interval when the lake again opened |
+| *days* | the number of days the lake is closed in the interval (duration) |
+
+The variables in *lake-mendota-winters-2020.csv* include *winter*, *year1*, and *days*
+defined as in the previous file, except that *days* is the sum of the durations of all intervals when the lake was closed in the winter, plus the following additions.
+
+| **Variable** | Description |
+| :----- | :---------- |
 | *intervals* | the number of time intervals the lake is closed |
-| *days* | the total number of days the lake is closed |
 | *first_freeze* | the date the lake first closes with ice |
 | *last_thaw* | the date of the last thaw (day after the last closed date) |
 | *decade* | the decade (1850, 1860, ...) of the winter |
 
-## Questions
+## Lake Mendota Questions
 
 As we analyze this data,
 we will be looking for patterns for how aspects of the freezing and thawing of Lake Mendota has changed over time.
-Has the duration of the lake being closed with ice changed; if so how?
-How has the typical date that the lake first freezes and last thaws changed over time?
-Can trends in the data be explained by modelling a straight line, or is a curve better?
-By how do individual observations in a given winter vary from what is typical?
-What do we predict might happen in future years?
-Is there evidence of a changing climate apparent in this data?
+
+1. Has the duration of the lake being closed with ice changed; if so how?
+2. How has the typical date that the lake first freezes and last thaws changed over time?
+3. Are trends in the data adequately explained by modeling with a straight line, or is a curve discernibly better?
+4. By how much do individual observations in a given winter tend to vary from the trend?
+5. What do we predict might happen in future years in terms of total duration of being closed by ice or dates of the first closed date or last open date?
+6. Is there evidence of a changing climate apparent in this data?
+
+## Lake Mendota Data Analysis
+
+The remainder of this chapter will present code to carry out an analysis through stages of reading, transforming, exploring, visualizing, modeling, and intepreting the data.
+Each portion of this analysis will be expanded and described much more thoroughly in later chapters of the book.
+In this presentation,
+the code is broken into blocks with discussion in between.
+You will want to get into the practice of using R Markdown for your own analyses in a similar fashion.
+
+### Loading the Tidyverse Packages
+
+We begin the analysis by using the `library()` command to load the **tidyverse** package,
+which is in actuality a collection of several packages designed to work together for data science.
+The code we use in the analysis combines functions in **readr** to read in data efficiently from a comma-separated-variable (.csv) file, in **dplyr** to transform the data to a more convenient form, in **ggplot2** to plot and visualize the data, and in **lubridate** to work with dates.
+The first three of these packages are part of the core **tidyverse** collection of packages and do not need to be loaded separately.
+A second command loads **lubridate**.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+The first time you load the **tidyverse** package,
+you will often see a message similar to this.
+
+<pre>
+── Attaching packages ───────────────────────────────────── tidyverse 1.3.0 ──
+✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+✓ tibble  3.0.4     ✓ dplyr   1.0.2
+✓ tidyr   1.1.2     ✓ stringr 1.4.0
+✓ readr   1.4.0     ✓ forcats 0.5.0
+── Conflicts ──────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+</pre>
+
+This is normal and does not indicate an error.
+The first part of the message names the packages which were loaded as the core portions of **tidyverse** with version numbers.
+(Your version numbers might be higher.)
+
+The second part indicates that two functions in the **dplyr** package,
+namely `filter()` and `lag()` have the same names as in the **stat** package.
+R will give precedence to the package loaded most recently,
+so a call to `filter()` will use `dplyr::filter()` and not `stat::filter()`,
+but you can always add the prefix of the package name followed by two colons to ensure that you are using the desired function.
+
+### Reading in the Lake Mendota Data
+
+The next code chunk reads in the raw data using the **readr** function `read_csv()`,
+displays the first few rows with `head()`,
+and describes the types of each variable as read in with `spec()`.
+Note that the data file is located in a directory named *data*
+which is located in the working directory.
+Had the data file been in the working directory itself,
+the argument to `read_csv()` could have been just the file name.
+This code creates a new object named `mendota_raw` which contains the read data.
+Note that here we use the author's preference of `=` to assign the value on the right to an object named on the left,
+as is common across most computer languages,
+in contrast to the conventional R assignment operator `<-`,
+created to resemble an arrow.
+
+```{r}
+mendota_raw = read_csv("data/lake-mendota-raw-2020.csv")
+head(mendota_raw)
+spec(mendota_raw)
+```
+
+Each row represents a period of time where the lake is closed by ice,
+with some winters appearing multiple times.
+(When this occurs, the winter value is repeated in the file, unlike the web page, where a double quote indicates the winter is repeated from the previous row.
+Furthermore, missing data is recorded as `NA` instead of `---`.)
+The variable `winter` is a two-year range
+while the dates in the closed and open columns contain a month abbreviation and day without the year.
+Months from October through December correspond to the first year of the range while those from January through May are the second.
+The first three columns were parsed as *character data*
+and the last as a numerical quantity, where *double* refers to the double precision method to store numerical observations in a computer.
+In actuality,
+the variable *winter* contains two separate numerical variables for the first and last years of a given winter,
+*closed* and *open* are partial dates,
+and *days* could be retyped as an integer, although this is not necessary.
+This data requires substantial transformation prior to use in analysis.
+
+### Transforming the Lake Mendota Data
+
+There are many steps to transform the raw data into a more useful form.
+The details of these steps will be explained in subsequent chapters,
+but we include the code here to provide a glimpse of **tidyverse** code style
+and as inspiration as you will be writing similar code in a few weeks, with practice.
+The following block of code creates extracts year variables from `winter`,
+transforms `closed` and `open` into proper date variables,
+and recalculates `days` in case there was a data entry error.
+It integrates functions and operators from **dplyr**, **tidyr**, **lubridate**, **stringr**,
+and **magrittr** packages.
+
+At this stage, you should not be concerned in the slightest if you do not understand the syntax of any of this code.
+One thing that will help to follow the flow is that the operator `%>%`
+from the **magrittr** package is a "pipe" operator
+that allows the object on the left to flow into the function on the right,
+which is quite convenient when stringing together a series of commands.
+Skim quickly and read the comments (which follow one or more # on a line).
+
+```{r transform}
+mendota_interval = mendota_raw %>%
+  ## eliminate the days variable
+  ## drop rows with missing data
+  select(-days) %>% 
+  drop_na() %>% 
+  ## get the year1 and year2 numeric variables, retaining winter
+  ## recalculate year2 as one more than year1 in case of typo
+  separate(winter,into = c("year1","year2"), remove = FALSE) %>%
+  mutate(year1 = as.numeric(year1)) %>%
+  mutate(year2 = year1+1) %>% 
+  ## add the correct year to the month and day for the closed and open columns
+  ## then convert the strings to dates with lubridate::dmy()
+  mutate(closed = case_when(
+    str_detect(closed,"Jul|Aug|Sep|Oct|Nov|Dec") ~ str_c(closed,' ',year1),
+    str_detect(closed,"Jan|Feb|Mar|Apr|May|Jun") ~ str_c(closed,' ',year2),
+    TRUE ~ NA_character_
+  )) %>%
+  mutate(closed = dmy(closed)) %>%
+  ## now, open
+  mutate(open = case_when(
+    str_detect(open,"Jul|Aug|Sep|Oct|Nov|Dec") ~ str_c(open,' ',year1),
+    str_detect(open,"Jan|Feb|Mar|Apr|May|Jun") ~ str_c(open,' ',year2),
+    TRUE ~ NA_character_
+  )) %>%
+  mutate(open = dmy(open)) %>% 
+  ## recalculate the number of days closed with ice
+  mutate(days = open - closed)
+
+## create a new data set with one row per winter
+## sum the durations of each interval to calculate days
+mendota = mendota_interval %>% 
+  group_by(winter) %>% 
+  summarize(intervals = n(),
+            days = sum(days),
+            first_freeze = min(closed),
+            last_thaw = max(open)) %>%
+  mutate(year1 = as.numeric(str_sub(winter,1,4))) %>%
+  ## add a decade variable
+  mutate(decade = floor(year1 / 10) * 10) %>% 
+  ## reorder the columns
+  select(winter,year1,everything())
+```
+
+The result of the previous block of code was to create data objects `mendota_interval` and `mendota` which match the data stored in the files *lake-mendota-intervals-2020.csv*
+and *lake-mendota-winters-2020.csv*.
+
+### Summarizing the Lake Mendota Data
+
+We will limit the subsequent analysis to the yearly summaries in the data object `mendota`.
+After executing a complicated block of code,
+it is wise to do some sanity checks
+to verify that the resulting data meets expectations.
+Again,
+the code used will be explained in later chapters.
+
+> Do we have the expected variables?
+
+```{r}
+head(mendota)
+```
+
+> Is there actually one row per year with none missing?
+
+```{r}
+mendota %>% 
+  summarize(n = n(),
+            first_winter = min(year1),
+            last_winter = max(year1),
+            expected_years = last_winter - first_winter + 1)
+
+mendota %>% 
+  select(year1) %>% 
+  unique() %>% 
+  nrow()
+```
+
+> What are the minimum, maximum, mean, median, and standard deviations of the intervals and days variables?
+
+```{r}
+mendota %>% 
+  select(intervals) %>% 
+  summarize(across(everything(),
+                   list(min=min, max=max, mean=mean, median=median, sd=sd)))
+
+mendota %>% 
+  select(days) %>% 
+  summarize(across(everything(),
+                   list(min=min, max=max, mean=mean, median=median, sd=sd)))
+```
+
+These numerical summaries seem to be reasonable.
+
+### Graphing the Lake Mendota Data
+
+The workhorse for plotting data are functions in the **ggplot2** package.
+Here, we plot the time series of the total duration of days in which Lake Mendota was closed by ice versus the winter (first year).
+A typical plot begins with the function `ggplot()` to set the framework of the plot
+by naming the data set and mapping aesthetics of the plot (location, color, and so on)
+with variables to be represented by those aesthetics.
+Subsequent commands add layers to the plot (add points, lines, legends, axis labels, titles, trend lines or curves, and so on).
+Unlike most tidyverse packages,
+commands in **ggplot2** are connected by the plus sign `+` instead of the pipe `%>%`
+(which is an artifact of the order of the creation of these packages).
+Again,
+do not focus on specific syntax,
+but instead get a sense of the flavor of the code.
+
+```{r}
+ggplot(mendota, aes(x = year1, y = days)) +
+  geom_line() +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  xlab("Winter") +
+  ylab("Duration (days)") +
+  ggtitle("Days Lake Mendota 50% or more Covered by Ice")
+```
+
+Effective graphs are a highly efficient way to capture and convey important data summaries.
+From this graph we can note the following:
+
+- In the mid 1850s, it was typical for Lake Mendota to be at least 50% covered by ice for over 120 days, or about four months each year.
+- In more recent times, in a typical winter, Lake Mendota is closed by ice for only about 80 days per winter, about a 33 percent from the typical amount in the 1850s, or nearly six weeks less.
+- It appears as if the rate of decrease in the typical total duration time being closed with ice was high in the last half of the 1800s when data collection began until about 1900 where things stabilized until just after 1950 or so, when steady decrease began again and persists.
+- While there is a clear decline in the total duration of being closed by ice over time, there has always been considerable year-to-year variation. It is not unusual in any particular year for the actual realized duration of being closed by ice to vary from the trend by as much as 2 to 3 weeks or so.
+- A model of this data might include a smooth climatic trend over time which curves to represent the long-term trend over time with a random year-by-year process where the actual data fluctuates around the trend.
+- In such a model, the curve that shows a decrease in typical values is the signal while the annual fluctuations is noise.
+
+### Modeling Lake Mendota Data
+
+A statistical model for the duration of time in days that Lake Mendota is at least half covered by ice as a function of time (represented by the first year of the corresponding winter) takes the form
+$$
+y_i = f(x_i) + \varepsilon_i
+$$
+where $i$ is an index for the winter,
+$y_i$ is the duration for the $i$th winter,
+$x_i$ is the first year of the $i$th winter,
+$f(x)$ is the function which represents the expected duration in a given year as a feature of the climate, and $\varepsilon_i$
+is a random annual deviation from the trend in the $i$th year.
+A conventional model for the random $\{\varepsilon_i\}$ deviations
+is that these deviations are independent from one another given the trend curve
+and that each is drawn from some random distribution,
+such as a bell-shaped normal curve with mean zero and standard deviation $\sigma$,
+where $\sigma$ represents the length of time in days of a typical deviation.
+$$
+\varepsilon_i \sim \text{N}(0,\sigma)
+$$
+
+A simple model for $f$ would be a straight line,
+but the smooth curve in the graph suggests that a straight line may not adequately capture
+some of the changes in the length of a typical duration over time.
+It is substantially more difficult to fit and describe a curve than a straight line,
+but if we take a black-box approach to the `loess()` function as used by the function `geom_smooth()` which added the smooth curve to the plot,
+we can calculate for each year these *fitted values*, $\hat{y_i} = \hat{f}(x_i)$,
+and the difference $y_i - \hat{y}_i$
+between the observed and fitted values, known as *residuals*.
+
+The next block of code adds to the data a column `fitted` and a column `residuals`
+where `fitted` is the value of the blue curve at each year and `residuals` is the defined difference in values.
+Again, do not worry about understanding advanced code in a language you are just learning to read at an elementary level.
+
+```{r}
+fit = loess( as.numeric(days) ~ year1, data = mendota)
+mendota = mendota %>% 
+  mutate(fitted = fit$fitted,
+         residuals = fit$residuals)
+
+head(mendota)
+```
+
+Note that the most of the first observed durations closed by ice are below the trend line, but that the second one is nearly four weeks longer than the trend predicts,
+as described by the second residual having a value $+26.6$ compared to the negative value of the other early observations.
+
+#### Standard Deviation
+
+A density plot is an effective way to show the distribution of a collection of numerical values.
+
+```{r}
+ggplot(mendota, aes(x = residuals)) +
+  geom_density(color = "blue") +
+  geom_hline(yintercept = 0)
+```
+
+The graph shows an approximate bell-shaped distribution,
+but, perhaps, with asymmetry with extreme low (negative) residuals being more common than extreme positive residuals.
+We ought to be cautious about any formal statistical inference methods which are not robust to moderate non-normality.
+However, for purely descriptive purposes,
+the sample standard deviation is a decent summary of the amount of variation in these sampled residual values.
+The sample standard deviation is (almost) the square root of the average squared deviation of the observations from their sample mean,
+the "almost" arising by dividing by $n-1$ instead of $n$ for reasons explained in a mathematical statistics course, where $n=165$ is the sample size in the current example.
+
+The formula for the sample standard deviation of a sample $x_1,\ldots,x_n$ is
+$$
+s = \sqrt{ \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}
+$$
+where $\bar{x}$ represents the sample mean.
+The R formula `mean()` and `sd()` calculate the mean and standard deviation.
+Here we compute these for the observed residuals.
+
+```{r}
+mendota %>% 
+  summarize(mean = mean(residuals),
+            sd = sd(residuals))
+```
+
+The sample mean is near zero,
+as expected in the model description
+and the standard deviation value of 16.8
+indicates that it is not at all unusual for the actual duration that Lake Mendota is closed with ice to vary from the norm by about two and a half weeks.
+We could use this observation to make a prediction about how much the actual time closed by ice Lake Mendota will be this year.
+
+```{r}
+tail(mendota)
+```
+
+The fitted value in the previous winter was 77.4 days,
+and in recent years this amount has decreased by about 0.7 days per year,
+meaning that 76.7 days is a good single point estimate.
+In an ideal normal curve,
+about 95% of the area is within two (1.96, to be more precise in the ideal)
+standard deviations.
+The size of two standard deviations is $16.8 \times 2 = 33.6$ days.
+Thus a 95% prediction interval for the duration that Lake Mendota
+will be closed by ice this year is $76.7 \pm 33.6$, or between about 43 and 110 days.
+From January 3, this prediction is that Lake Mendota will again be open somewhere between
+February 15 and April 23 in 2021, with a point estimate of March 21.
+By the end of the semester,
+we can see how good this prediction is.
+
+```{r}
+date("2021-01-03") + c(43, 77, 100)
+```
+
+A more sophisticated method may have also considered the actual first date that Lake Mendota closed with ice (January 3 is more than a week later than is typical under current climate conditions) and the potential nonnormality in the error distribution (with extreme short duration events being more likely than extreme long duration events).
+
+
 
